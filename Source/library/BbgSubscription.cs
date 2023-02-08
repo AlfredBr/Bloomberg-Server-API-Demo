@@ -8,20 +8,6 @@ public class BbgSubscription
 {
     private readonly List<string> topics = new();
     private readonly List<string> fields = new();
-    private readonly List<string> defaultFields = new()
-    {
-        "LAST_DIR",
-        "LAST_PRICE",
-        "PRICE_CHANGE_ON_DAY_RT",
-        "PRICE_LAST_TIME_RT",
-        "OPEN",
-        "BID",
-        "ASK",
-        "HIGH",
-        "LOW",
-        "PX_OFFICIAL_CLOSE_RT",
-        "VOLUME",
-    };
     public BbgSubscription()
     {
         Clear();
@@ -43,7 +29,7 @@ public class BbgSubscription
     {
         topics.Clear();
         fields.Clear();
-        fields.AddRange(defaultFields);
+        fields.AddRange(BbgConfig.Default.Fields);
     }
     internal IEnumerable<string> Topics => topics.Distinct().OrderBy(t => t);
     internal IEnumerable<string> Fields => fields.Distinct().OrderBy(t => t).Select(t => t.ToUpperInvariant());

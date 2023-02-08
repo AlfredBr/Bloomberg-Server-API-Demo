@@ -5,6 +5,23 @@ namespace library;
 public static class BbgConfig
 {
     public static string Filename => "BbgConsole.SavedSettings.json";
+	public static class Default
+	{
+		public static IEnumerable<string> Fields => new[]
+		{
+			"LAST_DIR",
+			"LAST_PRICE",
+			"PRICE_CHANGE_ON_DAY_RT",
+			"PRICE_LAST_TIME_RT",
+			"OPEN",
+			"BID",
+			"ASK",
+			"HIGH",
+			"LOW",
+			"PX_OFFICIAL_CLOSE_RT",
+			"VOLUME",
+		};
+	}
     public static class Server
     {
         public static string Host { get; set; } = "<your bloomberg hostname or ip>";
