@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using menu;
 
 using Bloomberglp.Blpapi;
 
@@ -40,22 +41,32 @@ public partial class BbgConnection
     }
     public BbgConnection Start()
     {
-        BbgMarketDataSession.Start();
-        Debug.Assert(BbgMarketDataSession is not null);
-        BbgReferenceDataSession.Start();
-        Debug.Assert(BbgReferenceDataSession is not null);
-        var referenceServiceIsOpen = BbgReferenceDataSession.OpenService(BbgConfig.Options.ReferenceData.DefaultSubscriptionService);
-        Debug.Assert(referenceServiceIsOpen);
-        BbgReferenceDataService = BbgReferenceDataSession.GetService(BbgConfig.Options.ReferenceData.DefaultSubscriptionService);
-        Debug.Assert(BbgReferenceDataService is not null);
-
-        var list = BbgSubscription.ToList();
-        if (list.Any())
+        try
         {
-            BbgMarketDataSession.Subscribe(list);
-            UpdateReferenceData();
+            if (BbgConfig.DemoMode) { return this; }
+            BbgMarketDataSession.Start();
+            Debug.Assert(BbgMarketDataSession is not null);
+            BbgReferenceDataSession.Start();
+            Debug.Assert(BbgReferenceDataSession is not null);
+            var referenceServiceIsOpen = BbgReferenceDataSession.OpenService(BbgConfig.Options.ReferenceData.DefaultSubscriptionService);
+            Debug.Assert(referenceServiceIsOpen);
+            BbgReferenceDataService = BbgReferenceDataSession.GetService(BbgConfig.Options.ReferenceData.DefaultSubscriptionService);
+            Debug.Assert(BbgReferenceDataService is not null);
+
+            var list = BbgSubscription.ToList();
+            if (list.Any())
+            {
+                BbgMarketDataSession.Subscribe(list);
+                UpdateReferenceData();
+            }
+            return this;
         }
-        return this;
+        catch (Exception ex)
+        {
+            ConsoleBox.WriteLine($"FAILURE : {ex.GetType()} : Bloomberg {ex.Message}.");
+            Environment.Exit(55); // ERROR_DEV_NOT_EXIST
+            return null;
+        }
     }
     public BbgConnection Restart() => Clear().Load().Start();
     public BbgConnection DemoMode(bool startDemoSession)
@@ -76,7 +87,7 @@ public partial class BbgConnection
             var topics = existingSubscriptions.Select(t => t.CorrelationID.Object.ToString()).OrderBy(t => t).Cast<string>();
             var fields = existingSubscriptions.First().SubscriptionString.Contains("fields=")
                 ? Regex.Split(existingSubscriptions.First().SubscriptionString, "fields=")[1].Split(',').OrderBy(t => t).ToArray()
-                : new string[] { };
+                : Array.Empty<string>();
             var savedSettings = new BbgConfig.SavedSettings { Topics = topics, Fields = fields };
             var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
             var jsonString = JsonSerializer.Serialize(savedSettings, jsonOptions);

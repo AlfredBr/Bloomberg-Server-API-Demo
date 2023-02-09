@@ -1,7 +1,5 @@
 using Bloomberglp.Blpapi;
 
-using System.Diagnostics;
-
 namespace library;
 
 public class BbgSubscription

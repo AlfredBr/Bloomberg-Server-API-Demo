@@ -44,6 +44,19 @@ public partial class BbgDisplay : Window
         this.TextAlignment = Terminal.Gui.TextAlignment.Left;
         this.Title = "BBG SAPI Console (Ctrl-Q to quit)";
         this.ColorScheme = Colors.ColorSchemes["TopLevel"];
+
+        var modeIndicator = BbgConfig.DemoMode ? "(Demo Mode)" : $"{BbgConfig.Server.Hostname} ({BbgConfig.Server.IPAddress})";
+        var label = new Label("modeIndicator")
+        {
+            Text = modeIndicator,
+            X = Pos.AnchorEnd() - modeIndicator.Length,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = 1,
+            TextAlignment = TextAlignment.Centered,
+            ColorScheme = Colors.ColorSchemes["TopLevel"]
+        };
+        this.Add(label);
     }
     private void InputControls()
     {
