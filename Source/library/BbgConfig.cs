@@ -64,6 +64,7 @@ public static class BbgConfig
     }
     public static class Service
     {
+        public static string Authentication => "//blp/apiauth";
         public static string Emsx => "//blp/emapisvc";
         public static string Flds => "//blp/apiflds";
         public static string MarketData => "//blp/mktdata";
@@ -71,6 +72,12 @@ public static class BbgConfig
     }
     public static class Options
     {
+        public static SessionOptions Authentication => new()
+        {
+            ServerHost = Server.Hostname,
+            ServerPort = Server.Port,
+            DefaultSubscriptionService = Service.Authentication
+        };
         public static SessionOptions MarketData => new()
         {
             ServerHost = Server.Hostname,

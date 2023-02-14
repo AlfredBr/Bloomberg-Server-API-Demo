@@ -17,12 +17,15 @@ public static class Program
                     BbgConfig.DemoMode = true;
                     break;
                 case 1:
-                    // Bloomberg SAPI on default server or user-provided server
+                    if (!BbgAuth.Authenticate()) { Environment.Exit(1); }
                     break;
                 case 2:
-                    BbgConfig.Server.Hostname = "localhost";
+                    // Bloomberg SAPI on default server or user-provided server
                     break;
                 case 3:
+                    BbgConfig.Server.Hostname = "localhost";
+                    break;
+                default:
                     Environment.Exit(0);
                     break;
             }
@@ -34,6 +37,7 @@ public static class Program
         finally
         {
             Application.Shutdown();
+            Console.ResetColor();
         }
     }
 
@@ -48,8 +52,9 @@ public static class Program
         var menuItems = new string[]
         {
             "Demo Mode",
-            $"Bloomberg SAPI on server/{BbgConfig.Server.Hostname} ({BbgConfig.Server.IPAddress})",
-            $"Bloomberg Terminal on localhost/{BbgConfig.Client.Hostname} ({BbgConfig.Client.IPAddress})",
+            "Authenticate to Bloomberg SAPI",
+            $"Connect to Bloomberg via SAPI on server/{BbgConfig.Server.Hostname} ({BbgConfig.Server.IPAddress})",
+            $"Connect to Bloomberg Terminal on localhost/{BbgConfig.Client.Hostname} ({BbgConfig.Client.IPAddress})",
             "Exit"
         };
         return new ConsoleMenu(menuItems).Show("Connect to Bloomberg:");

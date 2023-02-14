@@ -63,7 +63,7 @@ public partial class BbgConnection
         }
         catch (Exception ex)
         {
-            ConsoleBox.WriteLine($"FAILURE : {ex.GetType()} : Bloomberg {ex.Message}.");
+            ConsoleBox.SetOutlineColor(ConsoleColor.Red).WriteLine("FAILURE", $"{ex.GetType()}", $"Bloomberg {ex.Message}");
             Environment.Exit(55); // ERROR_DEV_NOT_EXIST
             return null;
         }
@@ -166,7 +166,6 @@ public partial class BbgConnection
             switch (eventType)
             {
                 case Event.EventType.SUBSCRIPTION_DATA:
-
                     var elements = message.Elements.Where(t => t is not null);
                     foreach (var element in elements)
                     {
@@ -188,7 +187,6 @@ public partial class BbgConnection
 
                 case Event.EventType.RESPONSE:
                 case Event.EventType.PARTIAL_RESPONSE:
-
                     if (!message.HasElement("securityData")) { break; }
                     var securities = message.GetElement("securityData");
                     Debug.Assert(securities is not null);
@@ -220,7 +218,6 @@ public partial class BbgConnection
                     break;
 
                 default:
-
                     var messageText = Regex.Replace(message.AsElement.ToString(), @"\s+", " ")?.Trim();
                     Debug.WriteLine($"{eventType} {messageText}");
                     Console.WriteLine($"{eventType} {messageText}");

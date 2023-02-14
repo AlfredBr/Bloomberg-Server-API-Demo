@@ -79,7 +79,7 @@ public class ConsoleMenu
         for (var i = 0; i < Items.Count; i++)
         {
             var indicator = i == p ? " > " : "   ";
-            Console.ForegroundColor = i == p ? ConsoleColor.White : ConsoleColor.Gray;
+            Console.ForegroundColor = i == p ? ConsoleColor.White : ConsoleColor.DarkGray;
             Console.WriteLine($"{indicator}{Items[i]}");
         }
     }
