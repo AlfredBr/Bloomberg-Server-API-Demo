@@ -1,5 +1,3 @@
-using System;
-
 namespace menu;
 
 public class ConsoleMenu
@@ -8,11 +6,7 @@ public class ConsoleMenu
     public Action<int>? OnClick { get; set; }
     public string? Prompt { get; set; }
     public IList<string> Items { get; set; } = Array.Empty<string>();
-
-    public ConsoleMenu()
-    {
-        // intentionally left blank
-    }
+    public ConsoleMenu() { /* intentionally left blank */ }
     public ConsoleMenu(string[] items, Action<int>? callback = null) : this()
     {
         Items = items;
@@ -83,7 +77,6 @@ public class ConsoleMenu
             Console.WriteLine($"{indicator}{Items[i]}");
         }
     }
-
     public class EventArgs<T> : EventArgs
     {
         public T Value { get; set; }

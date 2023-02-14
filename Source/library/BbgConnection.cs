@@ -1,10 +1,10 @@
+using Bloomberglp.Blpapi;
+
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Text.Json;
 using System.Text.RegularExpressions;
-using menu;
 
-using Bloomberglp.Blpapi;
+using menu;
 
 namespace library;
 
@@ -28,15 +28,9 @@ public partial class BbgConnection
     }
     public BbgConnection Load()
     {
-        var myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        var path = Path.Combine(myDocuments, BbgConfig.Filename);
-        if (File.Exists(path))
-        {
-            var contents = File.ReadAllText(path);
-            var savedSettings = JsonSerializer.Deserialize<BbgConfig.SavedSettings>(contents) ?? new BbgConfig.SavedSettings();
-            BbgSubscription.AddTopics(savedSettings.Topics);
-            BbgSubscription.AddFields(savedSettings.Fields);
-        }
+        var savedSettings = BbgConfig.SavedSettings.Load();
+        BbgSubscription.AddTopics(savedSettings.Topics);
+        BbgSubscription.AddFields(savedSettings.Fields);
         return this;
     }
     public BbgConnection Start()
@@ -89,11 +83,7 @@ public partial class BbgConnection
                 ? Regex.Split(existingSubscriptions.First().SubscriptionString, "fields=")[1].Split(',').OrderBy(t => t).ToArray()
                 : Array.Empty<string>();
             var savedSettings = new BbgConfig.SavedSettings { Topics = topics, Fields = fields };
-            var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
-            var jsonString = JsonSerializer.Serialize(savedSettings, jsonOptions);
-            var myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var path = Path.Combine(myDocuments, BbgConfig.Filename);
-            File.WriteAllText(path, jsonString);
+            BbgConfig.SavedSettings.Save(savedSettings);
         }
         return this;
     }

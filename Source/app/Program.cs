@@ -1,4 +1,5 @@
 ﻿using Terminal.Gui;
+
 using display;
 using library;
 using menu;
@@ -17,7 +18,7 @@ public static class Program
                     BbgConfig.DemoMode = true;
                     break;
                 case 1:
-                    if (!BbgAuth.Authenticate()) { Environment.Exit(1); }
+                    if (!BbgConfig.Authenticate()) { Environment.Exit(1); }
                     break;
                 case 2:
                     // Bloomberg SAPI on default server or user-provided server
@@ -29,6 +30,7 @@ public static class Program
                     Environment.Exit(0);
                     break;
             }
+            Console.ResetColor();
             Application.Init();
             var bbgConnection = new BbgConnection().DemoMode(BbgConfig.DemoMode).Load().Start();
             Application.Run(new BbgDisplay(bbgConnection));
