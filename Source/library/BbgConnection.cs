@@ -28,6 +28,7 @@ public partial class BbgConnection
     }
     public BbgConnection Load()
     {
+        if (BbgConfig.DemoMode) { return this; }
         var savedSettings = BbgConfig.SavedSettings.Load();
         BbgSubscription.AddTopics(savedSettings.Topics);
         BbgSubscription.AddFields(savedSettings.Fields);
@@ -63,9 +64,9 @@ public partial class BbgConnection
         }
     }
     public BbgConnection Restart() => Clear().Load().Start();
-    public BbgConnection DemoMode(bool startDemoSession)
+    public BbgConnection DemoMode()
     {
-        if (startDemoSession)
+        if (BbgConfig.DemoMode)
         {
             BbgSubscription.AddTopics(DemoSession.Topics);
             DemoSession = new DemoSession(this);
@@ -95,6 +96,7 @@ public partial class BbgConnection
     }
     public BbgConnection ModifySubscriptions()
     {
+        if (BbgConfig.DemoMode) { return this; }
         try
         {
             var existingSubscriptions = BbgMarketDataSession.GetSubscriptions();

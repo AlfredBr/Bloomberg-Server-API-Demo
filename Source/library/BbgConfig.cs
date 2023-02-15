@@ -216,6 +216,7 @@ public static class BbgConfig
         }
         public static void Save(SavedSettings savedSettings)
         {
+            if (DemoMode) { return; }
             if (savedSettings is null) { throw new ArgumentNullException(nameof(savedSettings)); }
             var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
             var jsonString = JsonSerializer.Serialize(savedSettings, jsonOptions);
@@ -225,6 +226,7 @@ public static class BbgConfig
         }
         public static void Save(string bbgUsername, int bbgUuid)
         {
+            if (DemoMode) { return; }
             if (string.IsNullOrEmpty(bbgUsername)) { throw new ArgumentNullException(nameof(bbgUsername)); }
             if (bbgUuid == 0) { throw new ArgumentNullException(nameof(bbgUuid)); }
             var savedSettings = Load();
