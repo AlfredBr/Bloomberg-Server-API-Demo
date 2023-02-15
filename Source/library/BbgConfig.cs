@@ -153,8 +153,8 @@ public static class BbgConfig
         Debug.Assert(service is not null);
         var request = service.CreateAuthorizationRequest();
         Debug.Assert(request is not null);
-        request.Set("ipAddress", ipAddress);
-        request.Set("uuid", bbgUuid);
+        request.Set(Name.GetName("ipAddress"), ipAddress);
+        request.Set(Name.GetName("uuid"), bbgUuid);
         var identity = session.CreateIdentity();
         var correlationId = new CorrelationID(bbgUsername);
         session.SendAuthorizationRequest(request, identity, correlationId);
@@ -181,8 +181,8 @@ public static class BbgConfig
                         }
                         if (messageType.Contains("failure", StringComparison.OrdinalIgnoreCase))
                         {
-                            var reason = message.AsElement.GetElement("reason");
-                            var failureMessage = reason.GetElement("message").GetValue()?.ToString()?.Trim() ?? string.Empty;
+                            var reason = message.AsElement.GetElement(Name.GetName("reason"));
+                            var failureMessage = reason.GetElement(Name.GetName("message")).GetValue()?.ToString()?.Trim() ?? string.Empty;
                             ConsoleBox.SetOutlineColor(ConsoleColor.Red).WriteLine(messageType.ToUpper(), failureMessage);
                             return false;
                         }
