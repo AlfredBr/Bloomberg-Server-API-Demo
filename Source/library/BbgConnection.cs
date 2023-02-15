@@ -11,8 +11,8 @@ namespace library;
 public partial class BbgConnection
 {
     public event EventHandler<BbgEventArgs>? CollectionChanged;
-    public Session BbgMarketDataSession { get; init; }
-    public Session BbgReferenceDataSession { get; init; }
+    public Session? BbgMarketDataSession { get; init; }
+    public Session? BbgReferenceDataSession { get; init; }
     public Service? BbgReferenceDataService { get; set; }
     public DemoSession? DemoSession { get; set; }
     public BbgSubscription BbgSubscription { get; init; }
@@ -40,8 +40,10 @@ public partial class BbgConnection
         try
         {
             if (BbgConfig.DemoMode) { return this; }
+            Debug.Assert(BbgMarketDataSession is not null);
             BbgMarketDataSession.Start();
             Debug.Assert(BbgMarketDataSession is not null);
+            Debug.Assert(BbgReferenceDataSession is not null);
             BbgReferenceDataSession.Start();
             Debug.Assert(BbgReferenceDataSession is not null);
             var referenceServiceIsOpen = BbgReferenceDataSession.OpenService(BbgConfig.Options.ReferenceData.DefaultSubscriptionService);
@@ -78,6 +80,7 @@ public partial class BbgConnection
     public BbgConnection Save()
     {
         if (BbgConfig.DemoMode) { return this; }
+        Debug.Assert(BbgMarketDataSession is not null);
         var existingSubscriptions = BbgMarketDataSession.GetSubscriptions();
         if (existingSubscriptions.Any())
         {
@@ -101,6 +104,7 @@ public partial class BbgConnection
         if (BbgConfig.DemoMode) { return this; }
         try
         {
+            Debug.Assert(BbgMarketDataSession is not null);
             var existingSubscriptions = BbgMarketDataSession.GetSubscriptions();
             var existingTopics = existingSubscriptions.Select(t => t.CorrelationID.Object.ToString()).Cast<string>();
             var proposedSubscriptions = BbgSubscription.ToList();
@@ -140,7 +144,9 @@ public partial class BbgConnection
     public void Stop()
     {
         if (BbgConfig.DemoMode) { return; }
+        Debug.Assert(BbgMarketDataSession is not null);
         BbgMarketDataSession.Stop();
+        Debug.Assert(BbgReferenceDataSession is not null);
         BbgReferenceDataSession.Stop();
     }
     private void UpdateReferenceData()
@@ -182,16 +188,16 @@ public partial class BbgConnection
 
                 case Event.EventType.RESPONSE:
                 case Event.EventType.PARTIAL_RESPONSE:
-                    if (!message.HasElement("securityData")) { break; }
-                    var securities = message.GetElement("securityData");
+                    if (!message.HasElement(Name.GetName("securityData"))) { break; }
+                    var securities = message.GetElement(Name.GetName("securityData"));
                     Debug.Assert(securities is not null);
                     for (int i = 0; i < securities.NumValues; i++)
                     {
                         var security = securities.GetValueAsElement(i);
                         if (security.IsNull) { continue; }
-                        var topic = security.GetElementAsString("security");
+                        var topic = security.GetElementAsString(Name.GetName("security"));
                         Debug.Assert(!string.IsNullOrEmpty(topic));
-                        var fields = security.GetElement("fieldData");
+                        var fields = security.GetElement(Name.GetName("fieldData"));
                         Debug.Assert(fields is not null);
                         for (int j = 0; j < fields.NumElements; j++)
                         {
