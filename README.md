@@ -7,5 +7,7 @@ If you don't have a Bloomberg Terminal, you'll need four things to get this work
 
 - [ ] A C# compiler and Microsoft net6.0 (or greater) installed.
 - [ ] The Bloomberg API libraries (Bloomberg.Blpapi) from the Bloomberg website.
+https://www.bloomberg.com/professional/support/api-library/
+https://bcms.bloomberg.com/BLPAPI-Generic/blpapi_dotnet_3.19.2.1.zip
 - [ ] A Bloomberg SAPI license (and assorted hardware infrastructure) and a Bloomberg username and UUID.
 - [ ] The hostname or IP address of your Bloomberg server (or *localhost* if you _do_ have a Bloomberg terminal).

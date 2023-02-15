@@ -15,24 +15,28 @@ public static class Program
             switch(Menu(args))
             {
                 case 0:
+                    // Demo mode - no Bloomberg connection required
                     BbgConfig.DemoMode = true;
                     break;
                 case 1:
+                    // Authenticed access to Bloomberg SAPI on default server or user-provided server
                     if (!BbgConfig.Authenticate()) { Environment.Exit(1); }
                     break;
                 case 2:
-                    // Bloomberg SAPI on default server or user-provided server
+                    // Unauthenticed access to Bloomberg SAPI on default server or user-provided server
                     break;
                 case 3:
+                    // Authenticated access to Bloomberg Terminal on localhost
                     BbgConfig.Server.Hostname = "localhost";
                     break;
                 default:
+                    // Exit the application
                     Environment.Exit(0);
                     break;
             }
             Console.ResetColor();
             Application.Init();
-            var bbgConnection = new BbgConnection().DemoMode(BbgConfig.DemoMode).Load().Start();
+            var bbgConnection = new BbgConnection().DemoMode().Load().Start();
             Application.Run(new BbgDisplay(bbgConnection));
             bbgConnection.Save().Stop();
         }
@@ -53,8 +57,8 @@ public static class Program
         }
         var menuItems = new string[]
         {
-            "Demo Mode",
-            "Authenticate to Bloomberg SAPI",
+            "Demo Mode (with fake data)",
+            "Authenticate to Bloomberg SAPI (with username and uuid)",
             $"Connect to Bloomberg via SAPI on server/{BbgConfig.Server.Hostname} ({BbgConfig.Server.IPAddress})",
             $"Connect to Bloomberg Terminal on localhost/{BbgConfig.Client.Hostname} ({BbgConfig.Client.IPAddress})",
             "Exit"
