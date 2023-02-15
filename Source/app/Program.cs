@@ -53,7 +53,7 @@ public static class Program
         if (userProvidedHostname.Length > 0)
         {
             BbgConfig.Server.Hostname = userProvidedHostname;
-            return 1;
+            return 2; // Connect to Bloomberg Terminal on user-provided server
         }
         var menuItems = new string[]
         {
