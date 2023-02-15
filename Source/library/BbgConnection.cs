@@ -19,12 +19,13 @@ public partial class BbgConnection
     public ConcurrentDictionary<Tuple<string, string>, BbgResponse> BbgMarketDataResponses { get; init; } = new();
     public BbgConnection()
     {
+        BbgSubscription = new BbgSubscription();
+        if (BbgConfig.DemoMode) { return; }
         var bbgHandler = new Bloomberglp.Blpapi.EventHandler(BbgHandler);
         BbgMarketDataSession = new Session(BbgConfig.Options.MarketData, bbgHandler);
         Debug.Assert(BbgMarketDataSession is not null);
         BbgReferenceDataSession = new Session(BbgConfig.Options.ReferenceData, bbgHandler);
         Debug.Assert(BbgReferenceDataSession is not null);
-        BbgSubscription = new BbgSubscription();
     }
     public BbgConnection Load()
     {
@@ -76,6 +77,7 @@ public partial class BbgConnection
     }
     public BbgConnection Save()
     {
+        if (BbgConfig.DemoMode) { return this; }
         var existingSubscriptions = BbgMarketDataSession.GetSubscriptions();
         if (existingSubscriptions.Any())
         {
@@ -137,6 +139,7 @@ public partial class BbgConnection
     public BbgConnection AddField(string field) { BbgSubscription.AddField(field); return this; }
     public void Stop()
     {
+        if (BbgConfig.DemoMode) { return; }
         BbgMarketDataSession.Stop();
         BbgReferenceDataSession.Stop();
     }
