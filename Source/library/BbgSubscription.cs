@@ -6,10 +6,7 @@ public class BbgSubscription
 {
     private readonly List<string> topics = new();
     private readonly List<string> fields = new();
-    public BbgSubscription()
-    {
-        Clear();
-    }
+    public BbgSubscription() => Clear();
     internal void AddField(string field) => fields.Add(field.ToUpperInvariant());
     internal void AddFields(IEnumerable<string> fields) => this.fields.AddRange(fields.Select(f => f.ToUpperInvariant()));
     internal void AddTopic(string topic)
