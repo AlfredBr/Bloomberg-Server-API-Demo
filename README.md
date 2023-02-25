@@ -1,7 +1,9 @@
 # Bloomberg API Demo Client
 This is a simple C# console app to demonstrate the use of the Bloomberg Server API on Microsoft Windows.
 
-This will also work with Bloomberg Desktop API if you have a Bloomberg terminal.
+![screenshot](https://github.com/AlfredBr/Bloomberg-Server-API-Demo/blob/main/Bloomberg%20Demo%20App.png)
+
+Note: this will also work with Bloomberg Desktop API if you have a Bloomberg terminal.
 
 To compile this, you'll need:
 
