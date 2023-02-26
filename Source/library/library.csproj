@@ -8,8 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
-    <PackageReference Include="Bloomberg.Blpapi" Version="3.16.6" />
     <ProjectReference Include="..\menu\menu.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Bloomberglp.Blpapi">
+      <HintPath>..\..\lib\Bloomberglp.Blpapi.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
