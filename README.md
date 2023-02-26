@@ -1,12 +1,16 @@
-# Bloomberg Server API Demo Client
-This is a simple C# console app to demo the use of the Bloomberg Server API on Microsoft Windows.
+# Bloomberg API Demo Client
+This is a simple C# console app to demonstrate the use of the Bloomberg Server API on Microsoft Windows.
 
-This may also work with desktop API if you have a Bloomberg terminal.
+![screenshot](https://github.com/AlfredBr/Bloomberg-Server-API-Demo/blob/main/Bloomberg%20Demo%20App.png)
 
-If you don't have a Bloomberg Terminal, you'll need four things to get this working:
+Note: this will also work with Bloomberg Desktop API if you have a Bloomberg terminal.
+
+To compile this, you'll need:
 
 - [ ] A C# compiler and Microsoft net6.0 (or greater) installed.
 - [ ] The Bloomberg API libraries (Bloomberg.Blpapi) from the Bloomberg website. [^1]
+
+At this point you should be able to get _Demo Mode_ working with fake data.  To get real Bloomberg data, you'll need:
 
 - [ ] A Bloomberg SAPI license (and assorted hardware infrastructure) and a Bloomberg username and UUID.[^2]
 - [ ] The hostname or IP address of your Bloomberg server (or *localhost* if you _do_ have a Bloomberg terminal).
