@@ -1,27 +1,26 @@
 ﻿using library;
 using System.Data;
-
 using Terminal.Gui;
 
 namespace display;
 
 public partial class BbgDisplay : Window
 {
-    private readonly BbgConnection? bbgConnection;
     private TableView? tableView;
+    private DateTime updateTime = DateTime.Now;
+    private readonly BbgConnection? bbgConnection;
     private readonly DataTable dataTable = new();
     private readonly Dictionary<string, Dictionary<string, string>> BbgMarketDataResponses = new();
-    private DateTime updateTime = DateTime.Now;
-    private readonly Timer refreshTimer;
     private BbgDisplay()
     {
         Colors.ColorSchemes["TopLevel"].Normal = Application.Driver.MakeAttribute(Color.Brown, Color.Black);
         Colors.ColorSchemes["TopLevel"].Focus = Application.Driver.MakeAttribute(Color.Black, Color.BrightYellow);
-        refreshTimer = new Timer((_) => OnCollectionChanged(null, BbgEventArgs.Empty), null, 10000, 10000);
+        Application.MainLoop.AddTimeout(TimeSpan.FromSeconds(10), OnRefreshCollection);
         Background();
         InputControls();
         OutputControls();
     }
+
     public BbgDisplay(BbgConnection? bbgConnection) : this()
     {
         if (bbgConnection is not null)
@@ -304,6 +303,11 @@ public partial class BbgDisplay : Window
             tableView.Update();
             tableView.SetNeedsDisplay();
         });
+    }
+    private bool OnRefreshCollection(MainLoop arg)
+    {
+        OnCollectionChanged(null, BbgEventArgs.Empty);
+        return true;
     }
     private static Dialog ErrorDialog(string title)
     {
