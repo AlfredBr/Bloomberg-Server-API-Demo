@@ -5,9 +5,11 @@ This is a simple C# console app to demonstrate the use of the **Bloomberg Server
 
 Note: this will also work with **Bloomberg Desktop API** if you have a Bloomberg terminal.
 
+## Requirements
+
 To compile this, you'll need:
 
-- [ ] A C# compiler and Microsoft net6.0 (or greater) installed.
+- [ ] A Windows PC with Microsoft net6.0 (or greater) installed.
 - [ ] The Bloomberg API libraries (Bloomberg.Blpapi) from the Bloomberg website. [^1]
 
 At this point you should be able to get _Demo Mode_ working with fake data.  To get real Bloomberg data, you'll need:
