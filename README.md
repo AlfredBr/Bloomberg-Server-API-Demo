@@ -15,7 +15,7 @@ To compile and run this, you'll need:
 At this point you should be able to get _Demo Mode_ working with fake data.  To get real Bloomberg data, you'll need:
 
 - [ ] A Bloomberg SAPI license (and assorted hardware infrastructure) and a Bloomberg username and UUID.[^2]
-- [ ] The hostname or IP address of your Bloomberg server (or *localhost* if you _do_ have a Bloomberg terminal).
+- [ ] The hostname or IP address of your Bloomberg server (or *localhost* if you _do_ have Bloomberg terminal software).
 
 [^1]: https://bcms.bloomberg.com/BLPAPI-Generic/blpapi_dotnet_3.19.2.1.zip
 [^2]: https://www.bloomberg.com/professional/support/api-library/
