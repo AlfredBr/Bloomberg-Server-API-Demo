@@ -7,7 +7,7 @@ Note: this will also work with **Bloomberg Desktop API** if you have a Bloomberg
 
 ## Requirements
 
-To compile this, you'll need:
+To compile and run this, you'll need:
 
 - [ ] A Windows PC with Microsoft net6.0 (or greater) installed.
 - [ ] The Bloomberg API libraries (Bloomberg.Blpapi) from the Bloomberg website. [^1]
