@@ -20,3 +20,5 @@ At this point you should be able to get _Demo Mode_ working with fake data.  To 
 [^1]: https://github.com/gui-cs/Terminal.Gui
 [^2]: https://bcms.bloomberg.com/BLPAPI-Generic/blpapi_dotnet_3.19.2.1.zip
 [^3]: https://www.bloomberg.com/professional/support/api-library/
+
+![Made with C#](https://forthebadge.com/images/badges/made-with-c-sharp.svg)
